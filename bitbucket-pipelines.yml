@@ -1,0 +1,9 @@
+image: python:3.11.2
+pipelines:
+  branches:
+    master:
+      - step:
+          name: "code deploying"
+          script:
+            - ssh ubuntu@16.24.36.173 /home/ubuntu/eris-saleh-dashboard-fr/devCdScript.sh
+
