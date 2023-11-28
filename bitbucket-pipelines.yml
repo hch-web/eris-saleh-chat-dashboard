@@ -5,5 +5,5 @@ pipelines:
       - step:
           name: "code deploying"
           script:
-            - ssh ubuntu@16.24.36.173 /home/ubuntu/eris-saleh-dashboard-fr/devCdScript.sh
+            - ssh ubuntu@157.241.54.34 /home/ubuntu/saleh-dashboard-fr/devCdScript.sh
 
