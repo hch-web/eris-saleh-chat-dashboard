@@ -78,3 +78,5 @@ export const getFilenameFromUrl = (url = '') => {
 
   return urlParts.pop();
 };
+
+export const getSearchParamsObj = searchParams => Object.fromEntries(searchParams);

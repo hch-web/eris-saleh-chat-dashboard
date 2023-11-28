@@ -1,4 +1,6 @@
 const mobileSmallCardHeight = '37vh';
+const pageEmptySpace = '200px';
+
 const customScrollDesign = {
   '::-webkit-scrollbar': {
     width: '5px',
@@ -15,7 +17,7 @@ const customScrollDesign = {
 };
 
 export const chatRoomPaperStyles = selectedChatId => ({
-  height: 'calc(100vh - 144px)',
+  height: `calc(100vh - ${pageEmptySpace})`,
 
   '@media screen and (max-width: 991px)': {
     height: !selectedChatId ? '80vh' : mobileSmallCardHeight,
@@ -34,7 +36,7 @@ export const chatRoomTabStyles = {
 };
 
 export const chatRoomsTabPanelWrapperStyles = selectedChatId => ({
-  height: 'calc(100vh - 200px)',
+  height: `calc(100vh - ${pageEmptySpace} - 56px)`,
   overflowY: 'auto',
   overflowX: 'hidden',
 
@@ -75,16 +77,16 @@ export const chatRoomCardDateStyles = {
 };
 
 export const chatBoxBodyWrapperStyles = {
-  height: 'calc(100vh - 200px)',
+  height: `calc(100vh - ${pageEmptySpace} - 56px)`,
   overflow: 'auto',
 
   '@media screen and (max-width: 991px)': {
-    height: `calc(100vh - ${mobileSmallCardHeight} - 200px)`,
+    height: `calc(100vh - ${mobileSmallCardHeight} - ${pageEmptySpace} - 56px)`,
   },
 };
 
 export const feedbackPaperWrapperStyles = {
-  maxHeight: 'calc(100vh - 144px)',
+  maxHeight: `calc(100vh - ${pageEmptySpace})`,
 
   '@media screen and (max-width: 991px)': { maxHeight: '37vh' },
 };
@@ -92,7 +94,7 @@ export const feedbackPaperWrapperStyles = {
 export const feedbackHeaderStyles = { minHeight: '56px' };
 
 export const feedbackBodyWrapperStyles = {
-  maxHeight: 'calc(100vh - 56px - 114px)',
+  maxHeight: `calc(100vh - 56px - ${pageEmptySpace})`,
   overflowY: 'auto',
 
   '@media screen and (max-width: 991px)': {

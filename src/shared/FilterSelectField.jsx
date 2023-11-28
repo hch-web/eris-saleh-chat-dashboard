@@ -1,25 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import propTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 
+import { getSearchParamsObj } from 'utilities/helpers';
+
 function FilterSelectField({ label, options, name }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [innerValue, setInnerValue] = useState('');
+  const paramValue = useMemo(() => searchParams.get(name), [searchParams]);
 
   useEffect(() => {
-    if (searchParams.size === 0) {
+    if (!paramValue && innerValue !== null) {
       setInnerValue('');
     }
-  }, [searchParams]);
+  }, [paramValue]);
 
   useEffect(() => {
     const value = searchParams.get(name);
+    const searchParamsObj = getSearchParamsObj(searchParams);
 
     if (innerValue !== '') {
-      setSearchParams({ ...searchParams, [name]: innerValue });
+      setSearchParams({ ...searchParamsObj, [name]: innerValue, filters: true });
     } else if (value !== null && value !== undefined) {
-      setSearchParams({ ...searchParams, [name]: value });
+      setSearchParams({ ...searchParamsObj, [name]: value, filters: true });
       setInnerValue(value);
     }
   }, [innerValue]);
@@ -34,7 +38,7 @@ function FilterSelectField({ label, options, name }) {
   );
 
   return (
-    <Box sx={{ minWidth: 180 }}>
+    <Box sx={{ minWidth: 140, maxWidth: 160 }}>
       <FormControl fullWidth size="small">
         <InputLabel>{label}</InputLabel>
 

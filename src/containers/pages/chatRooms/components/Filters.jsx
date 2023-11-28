@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Stack } from '@mui/material';
 
-import { ratingSelectOptions } from 'utilities/selectOptions';
-import FilterSelectField from 'shared/FilterSelectField';
 import FilterResetBtn from 'shared/FilterResetBtn';
+import FilterSelectField from 'shared/FilterSelectField';
+import { ratingSelectOptions } from 'utilities/selectOptions';
+import FilterDateField from 'shared/FilterDateField';
 
 function Filters() {
   return (
-    <Stack direction="row" justifyContent="flex-end" mb={2} spacing={2}>
+    <Stack direction="row" flexWrap={{ xs: 'wrap', md: 'nowrap' }} mb={2} columnGap={2} rowGap={2}>
+      <FilterDateField name="start_date" label="Start Date" />
+
+      <FilterDateField name="end_date" label="End Date" />
+
       <FilterSelectField name="rating" label="Rating" options={ratingSelectOptions} />
 
       <FilterResetBtn />
@@ -15,4 +20,4 @@ function Filters() {
   );
 }
 
-export default Filters;
+export default memo(Filters);

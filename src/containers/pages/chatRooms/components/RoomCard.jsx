@@ -10,26 +10,18 @@ import {
   chatRoomCardDateStyles,
   chatRoomCardListItemBtnStyles,
 } from 'styles/mui/containers/chatRoomsStyles';
-import {
-  useMarkChatArchiveMutation,
-  useMarkChatUnArchiveMutation,
-} from 'services/private/chatRooms';
+import { useMarkChatArchiveMutation, useMarkChatUnArchiveMutation } from 'services/private/chatRooms';
 import useHandleApiResponse from 'customHooks/useHandleApiResponse';
 
 function RoomCard({ name, lastMessage, chatDate, handleClick, roomDetails, isArchived }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const [markArchive, { error: archiveError, isSuccess: isArchiveSuccess }] =
-    useMarkChatArchiveMutation();
+  const [markArchive, { error: archiveError, isSuccess: isArchiveSuccess }] = useMarkChatArchiveMutation();
   const [markUnArchive, { error: unArchiveError, isSuccess: isUnArchiveSuccess }] =
     useMarkChatUnArchiveMutation();
 
   useHandleApiResponse(archiveError, isArchiveSuccess, 'Chat archived successfully!');
-  useHandleApiResponse(
-    unArchiveError,
-    isUnArchiveSuccess,
-    'Chat unarchived successfully!'
-  );
+  useHandleApiResponse(unArchiveError, isUnArchiveSuccess, 'Chat unarchived successfully!');
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -51,11 +43,7 @@ function RoomCard({ name, lastMessage, chatDate, handleClick, roomDetails, isArc
   const time = useMemo(() => moment(chatDate).format('hh:mm A'), [chatDate]);
 
   return (
-    <Box
-      className="position-relative w-100"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <Box className="position-relative w-100" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <ListItemButton
         className="w-100"
         divider
@@ -69,11 +57,7 @@ function RoomCard({ name, lastMessage, chatDate, handleClick, roomDetails, isArc
             </Grid>
 
             <Grid item xs={6} sm={8}>
-              <Typography
-                variant="body2"
-                className="w-100 text-truncate"
-                fontWeight={500}
-              >
+              <Typography variant="body2" className="w-100 text-truncate" fontWeight={500}>
                 {name}
               </Typography>
 

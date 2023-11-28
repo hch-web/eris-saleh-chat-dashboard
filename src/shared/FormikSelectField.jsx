@@ -1,16 +1,9 @@
 import React, { useMemo } from 'react';
-import {
-  Box,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material';
+import { Box, FormControl, FormHelperText, FormLabel, InputLabel, MenuItem, Select } from '@mui/material';
 import propTypes from 'prop-types';
 import { useField } from 'formik';
 
-function FormikSelectField({ label, options, name, disabled, variant }) {
+function FormikSelectField({ fieldLabel, options, name, disabled, variant, label }) {
   const [field, meta] = useField(name || '');
   const { value, onChange, onBlur } = field;
   const { error, touched } = meta;
@@ -19,11 +12,13 @@ function FormikSelectField({ label, options, name, disabled, variant }) {
 
   return (
     <Box sx={{ minWidth: 180 }}>
-      <FormControl variant={variant} disabled={disabled} fullWidth size="small">
-        <InputLabel>{label}</InputLabel>
+      <FormControl variant={variant} disabled={disabled} fullWidth>
+        {label && <FormLabel className="mb-2">{label}</FormLabel>}
+
+        {fieldLabel && <InputLabel>{fieldLabel}</InputLabel>}
 
         <Select
-          label={label}
+          label={fieldLabel}
           name={name}
           value={value}
           onChange={onChange}
@@ -45,12 +40,13 @@ function FormikSelectField({ label, options, name, disabled, variant }) {
 
 FormikSelectField.propTypes = {
   name: propTypes.string.isRequired,
-  label: propTypes.string.isRequired,
+  fieldLabel: propTypes.string,
+  label: propTypes.string,
   variant: propTypes.string,
   disabled: propTypes.bool,
   options: propTypes.arrayOf(
     propTypes.shape({
-      value: propTypes.oneOfType([propTypes.string, propTypes.number]),
+      value: propTypes.oneOfType([propTypes.string, propTypes.number, propTypes.bool]),
       label: propTypes.string,
     })
   ).isRequired,
@@ -59,6 +55,8 @@ FormikSelectField.propTypes = {
 FormikSelectField.defaultProps = {
   disabled: false,
   variant: 'standard',
+  fieldLabel: '',
+  label: '',
 };
 
 export default FormikSelectField;

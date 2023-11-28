@@ -7,6 +7,7 @@ import ChatBox from './components/ChatBox';
 import Feedback from './components/Feedback';
 import { ChatContext } from './contexts/chatContexts';
 import UnselectedChatbox from './components/UnselectedChatbox';
+import Filters from './components/Filters';
 
 function ChatRooms() {
   const [feedback, setFeedback] = useState({ rating: 0, text: '', time: '' });
@@ -25,6 +26,8 @@ function ChatRooms() {
   return (
     <Box>
       <ChatContext.Provider value={contextValue}>
+        <Filters />
+
         <Grid container spacing={2}>
           <Rooms />
 

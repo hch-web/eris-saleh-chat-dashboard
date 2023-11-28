@@ -1,50 +1,45 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Tab,
-  Tabs,
-} from '@mui/material';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import { Divider, Grid, Paper, Tab, Tabs } from '@mui/material';
+import { useSearchParams } from 'react-router-dom';
 
 // COMPONENTS & STYLES
-import {
-  useGetArchivedChatListQuery,
-  useGetChatListQuery,
-} from 'services/private/chatRooms';
 import TabPanel from 'containers/common/components/TabPanel';
 import {
   chatRoomPaperStyles,
-  chatRoomsTabPanelWrapperStyles,
   chatRoomTabStyles,
   chatRoomTabsWrapperStyles,
 } from 'styles/mui/containers/chatRoomsStyles';
-import RoomCard from './RoomCard';
+import {
+  useLazyGetChatListQuery,
+  useLazyGetArchivedChatListQuery,
+} from 'services/private/chatRooms';
 import { useChatContext } from '../contexts/chatContexts';
+import RoomTabLabelCount from './RoomTabLabelCount';
+import RoomsListTabPanel from './RoomsListTabPanel';
 
 function Rooms() {
   const [currentValue, setCurrentValue] = useState(0);
-  const { setSelectedChatId, setFeedback, selectedChatId } = useChatContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParamsObj = useMemo(() => Object.fromEntries(searchParams), [searchParams]);
 
-  const { data: chatsData } = useGetChatListQuery();
-  const { data: archivedData } = useGetArchivedChatListQuery();
+  const { selectedChatId } = useChatContext();
 
-  const handleChange = (event, newValue) => {
+  const [getChats, { data }] = useLazyGetChatListQuery();
+  const [getArchivedChats, { data: archivedData }] = useLazyGetArchivedChatListQuery();
+
+  useEffect(() => {
+    if (currentValue === 0) {
+      getChats(searchParamsObj);
+    }
+
+    if (currentValue === 1) {
+      getArchivedChats(searchParamsObj);
+    }
+  }, [searchParams, currentValue]);
+
+  const handleTabChange = (event, newValue) => {
     setCurrentValue(newValue);
-  };
-
-  const handleClickRoom = chatRoom => {
-    setFeedback({
-      rating: chatRoom?.feedback_rating,
-      text: chatRoom?.feedback_text,
-      time: chatRoom?.chat_started_at,
-      chatName: chatRoom?.name,
-    });
-    setSelectedChatId(chatRoom.id);
+    setSearchParams({ archived: newValue === 1 });
   };
 
   return (
@@ -54,68 +49,48 @@ function Rooms() {
           variant="scrollable"
           sx={chatRoomTabsWrapperStyles}
           value={currentValue}
-          onChange={handleChange}
+          onChange={handleTabChange}
           scrollButtons="auto"
           TabIndicatorProps={{ hidden: true }}
           allowScrollButtonsMobile
         >
-          <Tab label="Chats" wrapped sx={chatRoomTabStyles} />
+          <Tab
+            label={(
+              <RoomTabLabelCount
+                isActive={currentValue === 0}
+                label="Chats"
+                count={data?.count}
+              />
+            )}
+            wrapped
+            sx={chatRoomTabStyles}
+          />
 
-          <Tab label="Archived" wrapped sx={chatRoomTabStyles} />
+          <Tab
+            label={(
+              <RoomTabLabelCount
+                isActive={currentValue === 1}
+                label="Archived"
+                count={archivedData?.count}
+              />
+            )}
+            wrapped
+            sx={chatRoomTabStyles}
+          />
         </Tabs>
 
         <Divider />
 
         <TabPanel index={0} stateValue={currentValue}>
-          <Box sx={chatRoomsTabPanelWrapperStyles(selectedChatId)}>
-            <List className="d-flex flex-column align-items-start">
-              {chatsData?.length === 0 && (
-                <ListItem>
-                  <ListItemText primary="No chats available" />
-                </ListItem>
-              )}
-
-              {chatsData?.results?.map(item => (
-                <RoomCard
-                  name={item?.name}
-                  lastMessage={item?.chat_last_message}
-                  chatDate={item?.chat_started_at}
-                  key={item.id}
-                  isArchived={false}
-                  handleClick={handleClickRoom}
-                  roomDetails={item}
-                />
-              ))}
-            </List>
-          </Box>
+          <RoomsListTabPanel isArchived={false} data={data} />
         </TabPanel>
 
         <TabPanel index={1} stateValue={currentValue}>
-          <Box sx={chatRoomsTabPanelWrapperStyles(selectedChatId)}>
-            <List className="d-flex flex-column align-items-start">
-              {archivedData?.length === 0 && (
-                <ListItem>
-                  <ListItemText primary="No chats available" />
-                </ListItem>
-              )}
-
-              {archivedData?.results?.map(item => (
-                <RoomCard
-                  name={item?.name}
-                  lastMessage={item?.chat_last_message}
-                  chatDate={item?.chat_started_at}
-                  key={item.id}
-                  isArchived
-                  handleClick={handleClickRoom}
-                  roomDetails={item}
-                />
-              ))}
-            </List>
-          </Box>
+          <RoomsListTabPanel isArchived data={archivedData} />
         </TabPanel>
       </Paper>
     </Grid>
   );
 }
 
-export default Rooms;
+export default memo(Rooms);

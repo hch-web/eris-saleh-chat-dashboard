@@ -3,17 +3,18 @@ import { privateAPI } from '.';
 export const chatRoomsAPI = privateAPI.injectEndpoints({
   endpoints: build => ({
     getChatList: build.query({
-      query: () => ({
+      query: params => ({
         url: '/chat-list/',
-        params: { archived: false },
+        params: { archived: false, ...params },
+        // params,
       }),
       providesTags: ['GetChatList'],
     }),
 
     getArchivedChatList: build.query({
-      query: () => ({
+      query: params => ({
         url: '/chat-list/',
-        params: { archived: true },
+        params: { archived: true, ...params },
       }),
       providesTags: ['GetArchivedChatList'],
     }),
@@ -45,6 +46,8 @@ export const chatRoomsAPI = privateAPI.injectEndpoints({
 
 export const {
   useGetChatListQuery,
+  useLazyGetChatListQuery,
+  useLazyGetArchivedChatListQuery,
   useGetChatDetilsQuery,
   useGetArchivedChatListQuery,
   useMarkChatArchiveMutation,

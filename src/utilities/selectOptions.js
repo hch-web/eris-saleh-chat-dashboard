@@ -1,5 +1,3 @@
-import { ADMIN, FINANCE, HR } from './constants';
-
 export const ratingSelectOptions = [
   {
     label: '1 Star',
@@ -23,17 +21,28 @@ export const ratingSelectOptions = [
   },
 ];
 
-export const roleSelectOptions = [
+export const roleOptions = [
   {
     label: 'Admin',
-    value: ADMIN,
+    value: 'true',
   },
   {
-    label: 'Finance',
-    value: FINANCE,
+    label: 'User',
+    value: 'false',
+  },
+];
+
+export const ticketStatusOptions = [
+  {
+    label: 'Pending',
+    value: 'Pending',
   },
   {
-    label: 'HR',
-    value: HR,
+    label: 'Open',
+    value: 'Open',
+  },
+  {
+    label: 'Closed',
+    value: 'Closed',
   },
 ];
