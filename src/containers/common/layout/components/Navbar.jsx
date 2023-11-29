@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 // ASSETS & STYLES
 import styles from 'styles/common/layout.module.scss';
-import logo from 'assets/logo.svg';
+import logo from 'assets/BES_LOGO.png';
 import avatarImgURL from 'assets/profile-image-2.png';
 import { onLoggedOut } from 'store/slices/authSlice';
 import useGetUserData from 'customHooks/useGetUserData';

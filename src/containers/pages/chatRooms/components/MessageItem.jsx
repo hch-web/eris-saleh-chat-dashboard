@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ThumbDown, ThumbUp } from '@mui/icons-material';
 
 import { messageBoxStyles } from 'styles/mui/containers/chatRoomsStyles';
-import { avatarImgURL } from 'utilities/constants';
+import avatarImgURL from 'assets/BES_LOGO-icon.png';
 
 function MessageItem({ isBot, message, audioMsg, isLiked }) {
   return (
