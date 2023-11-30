@@ -62,6 +62,7 @@ function UserProfile() {
                     fieldLabel={item.label}
                     name={item.fieldName}
                     variant="filled"
+                    type={item?.type || 'text'}
                   />
                 </Grid>
               </Grid>

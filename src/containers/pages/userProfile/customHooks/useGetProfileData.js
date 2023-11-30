@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { useGetUserByIdQuery } from 'services/private/user';
@@ -9,7 +8,6 @@ const useGetProfileData = isAdd => {
   const { id } = useParams();
   const [modifiedData, setModifiedData] = useState([]);
   const [initValues, setInitValues] = useState(profileInitValues);
-  // const userProfile = useSelector(state => state.auth?.user);
 
   const { data: userProfile } = useGetUserByIdQuery(id, {
     refetchOnMountOrArgChange: true,
@@ -38,10 +36,12 @@ const useGetProfileData = isAdd => {
       {
         label: isAdd ? 'Password' : 'New Password',
         fieldName: 'password',
+        type: 'password',
       },
       {
         label: 'Confirm Password',
         fieldName: 'confirmPassword',
+        type: 'password',
       },
     ];
 

@@ -6,7 +6,6 @@ export const chatRoomsAPI = privateAPI.injectEndpoints({
       query: params => ({
         url: '/chat-list/',
         params: { archived: false, ...params },
-        // params,
       }),
       providesTags: ['GetChatList'],
     }),
