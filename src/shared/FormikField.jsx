@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useMemo, useState } from 'react';
 import { Box, FormLabel, IconButton, TextField } from '@mui/material';
 import propTypes from 'prop-types';
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function FormikField({
@@ -15,11 +15,14 @@ function FormikField({
   maxRows,
   minRows,
   label,
+  placeholder,
+  size,
 }) {
   const [isVisible, setVisible] = useState(false);
   const [field, meta] = useField(name || '');
   const { value, onChange, onBlur } = field;
   const { error, touched } = meta;
+  const { handleSubmit } = useFormikContext();
 
   const toggleVisibility = () => {
     setVisible(prevState => !prevState);
@@ -30,6 +33,18 @@ function FormikField({
       onChange(e);
     },
     [onChange]
+  );
+
+  const handleKeyDown = useCallback(
+    e => {
+      const { key } = e;
+
+      if (key === 'Enter' && multiline) {
+        e.preventDefault();
+        handleSubmit();
+      }
+    },
+    [multiline]
   );
 
   const isError = useMemo(() => !!(error && touched), [error, touched]);
@@ -45,6 +60,7 @@ function FormikField({
 
     return undefined;
   }, [isVisible, isPassword]);
+
   const inputType = useMemo(() => {
     if (isPassword) {
       if (isVisible) {
@@ -65,11 +81,12 @@ function FormikField({
         multiline={multiline}
         className={className}
         name={name}
-        // variant={variant}
+        placeholder={placeholder}
         variant={variant}
         label={fieldLabel}
         value={value}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         onBlur={onBlur}
         error={isError}
         disabled={disabled}
@@ -79,6 +96,7 @@ function FormikField({
         InputProps={{ endAdornment: passwordIcon }}
         minRows={minRows}
         maxRows={maxRows}
+        size={size}
       />
     </Box>
   );
@@ -95,6 +113,8 @@ FormikField.propTypes = {
   maxRows: propTypes.number,
   minRows: propTypes.number,
   label: propTypes.string,
+  placeholder: propTypes.string,
+  size: propTypes.oneOf(['small', 'medium']),
 };
 
 FormikField.defaultProps = {
@@ -107,6 +127,8 @@ FormikField.defaultProps = {
   maxRows: 4,
   minRows: 4,
   label: '',
+  placeholder: '',
+  size: 'small',
 };
 
 export default memo(FormikField);

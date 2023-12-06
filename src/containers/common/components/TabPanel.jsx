@@ -3,7 +3,8 @@ import { Box } from '@mui/material';
 import propTypes from 'prop-types';
 
 function TabPanel({ index, stateValue, children }) {
-  return index === stateValue ? <Box>{children}</Box> : null;
+  // return index === stateValue ? <Box>{children}</Box> : null;
+  return index === stateValue && <Box>{children}</Box>;
 }
 
 TabPanel.propTypes = {

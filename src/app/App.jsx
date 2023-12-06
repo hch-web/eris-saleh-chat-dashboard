@@ -17,6 +17,8 @@ function App() {
   useEffect(() => {
     (async () => {
       await getAuthorizedUser();
+
+      await Notification.requestPermission();
     })();
   }, []);
 

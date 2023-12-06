@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, CardContent } from '@mui/material';
 
 // COMPONENTS & STYLES
-import logoImg from 'assets/BES_LOGO.png';
+import logoImg from 'assets/Eris-AI-logo.png';
 import { authContainerWrapperStyles, cardStyles } from 'styles/mui/containers/authStyles';
 import LoginForm from './components/LoginForm';
 
@@ -14,7 +14,7 @@ function LoginPage() {
           <img
             className="mb-5 user-select-none mw-100"
             src={logoImg}
-            width={380}
+            width={280}
             alt="Logo"
           />
 

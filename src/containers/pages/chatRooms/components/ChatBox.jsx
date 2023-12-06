@@ -7,7 +7,11 @@ import {
   chatBoxHeaderStyles,
 } from 'styles/mui/containers/chatRoomsStyles';
 import { useGetChatDetilsQuery } from 'services/private/chatRooms';
-import MessageItem from './MessageItem';
+// import MessageItem from '';
+import MessageItem from 'containers/common/components/MessageItem';
+import { handleAddHumanAgentDivider } from 'containers/pages/humanAgent/utilities/helpers';
+import HumanAgentDivider from 'containers/common/components/HumanAgentDivider';
+import { v4 } from 'uuid';
 import { useChatContext } from '../contexts/chatContexts';
 
 function ChatBox() {
@@ -20,9 +24,7 @@ function ChatBox() {
 
   const sortedMessages = useMemo(() => {
     if (chatMessages?.results?.length > 0) {
-      return [...chatMessages.results].sort(
-        (a, b) => new Date(a.created_at) - new Date(b.created_at)
-      );
+      return handleAddHumanAgentDivider(chatMessages.results);
     }
 
     return [];
@@ -55,7 +57,9 @@ function ChatBox() {
             {sortedMessages?.map(item => {
               const isBot = item?.message_sender === 'AI';
 
-              return (
+              return item?.type === 'DIVIDER' ? (
+                <HumanAgentDivider key={v4()} message={item?.message} />
+              ) : (
                 <MessageItem
                   message={item?.text_message}
                   audioMsg={item?.audio_message}

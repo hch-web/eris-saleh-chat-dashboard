@@ -18,7 +18,8 @@ import useChatList from '../customHooks/useChatList';
 function RoomsListTabPanel({ data, isFetching, isArchived }) {
   const { setFeedback, selectedChatId, setSelectedChatId } = useChatContext();
 
-  const { chatRooms, page, handlePageChange, handleRowsPerPageChange, rowsPerPage } = useChatList(data);
+  const { chatRooms, page, handlePageChange, handleRowsPerPageChange, rowsPerPage } =
+    useChatList(data);
 
   const handleClickRoom = chatRoom => {
     setFeedback({
@@ -41,8 +42,8 @@ function RoomsListTabPanel({ data, isFetching, isArchived }) {
 
         {chatRooms?.map(item => (
           <RoomCard
-            name={item?.name}
-            lastMessage={item?.chat_last_message}
+            name={item?.name || 'NA'}
+            lastMessage={item?.chat_last_message || '-'}
             chatDate={item?.chat_started_at}
             key={item.id}
             isArchived={isArchived}

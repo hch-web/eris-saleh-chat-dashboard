@@ -6,12 +6,12 @@ import LayoutWrapper from 'containers/common/layout';
 
 function PrivateRoutes() {
   const { isAuthenticated } = useSelector(state => state.auth);
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   return isAuthenticated ? (
     <LayoutWrapper />
   ) : (
-    <Navigate to="/auth/login" state={{ from: pathname }} />
+    <Navigate to="/auth/login" state={{ from: `${pathname}${search}` }} />
   );
 }
 

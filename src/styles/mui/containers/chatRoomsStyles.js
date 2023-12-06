@@ -1,20 +1,7 @@
+import { customScrollDesign } from '../commonStyles';
+
 const mobileSmallCardHeight = '37vh';
 const pageEmptySpace = '200px';
-
-const customScrollDesign = {
-  '::-webkit-scrollbar': {
-    width: '5px',
-  },
-
-  '::-webkit-scrollbar-track': {
-    background: '#f1f1f1',
-  },
-
-  '::-webkit-scrollbar-thumb': {
-    background: '#cfcfcf',
-    borderRadius: '5px',
-  },
-};
 
 export const chatRoomPaperStyles = selectedChatId => ({
   height: `calc(100vh - ${pageEmptySpace})`,
@@ -50,7 +37,6 @@ export const chatRoomsTabPanelWrapperStyles = selectedChatId => ({
 export const chatBoxHeaderStyles = { minHeight: '56px' };
 
 export const chatRoomCardListItemBtnStyles = {
-  // position: 'relative',
   '@media screen and (max-width: 768px)': { padding: '4px 8px' },
 };
 

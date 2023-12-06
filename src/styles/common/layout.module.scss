@@ -8,9 +8,13 @@ $smallSidebarWidth: 60px;
   justify-content: space-between;
   background: white;
   box-shadow: 0 0 10px rgba(187, 187, 187, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
   .navLogo {
-    width: 170px;
+    width: 150px;
   }
 }
 
