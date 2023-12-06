@@ -31,6 +31,7 @@ import useNotificationsSocket from '../customHooks/useNotificationsSocket';
 function Navbar() {
   const dispatch = useDispatch();
   const { id } = useSelector(state => state.auth.user);
+  const unreadNotifications = useSelector(state => state.notifications.unread);
   const { firstName } = useGetUserData();
   const [profileMenu, handleOpenProfileMenu, handleCloseProfileMenu] =
     useGetMenuHandlers();
@@ -50,7 +51,7 @@ function Navbar() {
 
       <Box className="d-flex align-items-center gap-4">
         <IconButton onClick={handleOpenNotiMenu}>
-          <Badge badgeContent={0} color="primary">
+          <Badge badgeContent={unreadNotifications} color="primary">
             <Notifications />
           </Badge>
         </IconButton>

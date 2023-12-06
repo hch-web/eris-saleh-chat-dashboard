@@ -49,7 +49,22 @@ const useNotificationsSocket = () => {
 
   useEffect(() => {
     if (notificationsData?.results?.length > 0) {
-      dispatch(updateNotifications(notificationsData?.results));
+      let unreadNotifications = 0;
+
+      if (notificationsData?.results) {
+        notificationsData.results.forEach(item => {
+          if (item?.is_read === false) {
+            unreadNotifications++;
+          }
+        });
+      }
+
+      dispatch(
+        updateNotifications({
+          data: notificationsData?.results,
+          unread: unreadNotifications,
+        })
+      );
     }
   }, [notificationsData]);
 
