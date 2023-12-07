@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Avatar, Box, Divider, Grid, Paper, Stack, Typography } from '@mui/material';
+import { v4 } from 'uuid';
 
 // COMPONENTS & STYLES
 import {
@@ -7,11 +8,10 @@ import {
   chatBoxHeaderStyles,
 } from 'styles/mui/containers/chatRoomsStyles';
 import { useGetChatDetilsQuery } from 'services/private/chatRooms';
-// import MessageItem from '';
+import avatarImage from 'assets/BES_LOGO-icon.png';
 import MessageItem from 'containers/common/components/MessageItem';
 import { handleAddHumanAgentDivider } from 'containers/pages/humanAgent/utilities/helpers';
 import HumanAgentDivider from 'containers/common/components/HumanAgentDivider';
-import { v4 } from 'uuid';
 import { useChatContext } from '../contexts/chatContexts';
 
 function ChatBox() {
@@ -55,7 +55,10 @@ function ChatBox() {
         <Box sx={chatBoxBodyWrapperStyles}>
           <Box className="d-flex flex-column align-items-start p-3 gap-3">
             {sortedMessages?.map(item => {
-              const isBot = item?.message_sender === 'AI';
+              const isAdmin =
+                item?.message_sender === 'Admin' || item?.message_sender === 'Support';
+              const isHuman = item?.message_sender === 'Human';
+              const isAI = item?.message_sender === 'AI';
 
               return item?.type === 'DIVIDER' ? (
                 <HumanAgentDivider key={v4()} message={item?.message} />
@@ -63,9 +66,11 @@ function ChatBox() {
                 <MessageItem
                   message={item?.text_message}
                   audioMsg={item?.audio_message}
-                  isBot={isBot}
+                  isBot={isHuman}
                   key={item.id}
                   isLiked={item?.is_liked}
+                  imageURL={isAdmin || isAI ? avatarImage : null}
+                  removeIMG={isHuman}
                 />
               );
             })}
