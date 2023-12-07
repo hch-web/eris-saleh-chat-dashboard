@@ -1,13 +1,15 @@
 import React, { useMemo } from 'react';
-import { Avatar, Grid, Paper, Typography } from '@mui/material';
+import { Avatar, Grid, Paper, Stack } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { useLocation } from 'react-router-dom';
 
 import FormikField from 'shared/FormikField';
 import SubmitBtn from 'shared/SubmitBtn';
+import avatarImg from 'assets/profile-image-2.png';
 import { useAddUserMutation, useUpdateProfileMutation } from 'services/private/user';
 import useHandleApiResponse from 'customHooks/useHandleApiResponse';
-import { avatarImgURL } from 'utilities/constants';
+import ResetBtn from 'shared/ResetBtn';
+import FormikSelectField from 'shared/FormikSelectField';
 import useGetProfileData from './customHooks/useGetProfileData';
 import { addProfileValSchema, editProfileValSchema } from './utilities/formUtils';
 
@@ -21,16 +23,21 @@ function UserProfile() {
   const [addUser, { error: addError, isSuccess: isAddSuccess }] = useAddUserMutation();
   const { initValues, modifiedData } = useGetProfileData(isAdd);
 
-  useHandleApiResponse(addError, isAddSuccess, 'User added successfully!');
-  useHandleApiResponse(updateError, isUpdateSuccess, 'User updated successfully!');
+  useHandleApiResponse(addError, isAddSuccess, 'User added successfully!', '/users');
+  useHandleApiResponse(
+    updateError,
+    isUpdateSuccess,
+    'User updated successfully!',
+    '/users'
+  );
 
   return (
     <Paper className="p-2 px-4">
       <Avatar
-        src={avatarImgURL}
+        src={avatarImg}
         color="primary"
         className="mb-5"
-        sx={{ width: 150, margin: '0 auto', height: 150 }}
+        sx={{ width: 100, margin: '0 auto', height: 100 }}
       />
 
       <Formik
@@ -48,31 +55,35 @@ function UserProfile() {
       >
         {() => (
           <Form>
-            {modifiedData?.map(item => (
-              <Grid key={item.label} container alignItems="center" mb={2}>
-                <Grid item xs={12} md={4} lg={3}>
-                  <Typography variant="body1" fontWeight={500}>
-                    {item.label}:
-                  </Typography>
+            <Grid container alignItems="start" mb={4} columnSpacing={3} rowGap={3}>
+              {modifiedData?.map(item => (
+                <Grid key={item.label} item xs={12} md={6} lg={6}>
+                  {item?.options ? (
+                    <FormikSelectField
+                      label={item.label}
+                      disabled={item.disabled ?? false}
+                      name={item.fieldName}
+                      variant="filled"
+                      options={item?.options}
+                    />
+                  ) : (
+                    <FormikField
+                      label={item.label}
+                      disabled={item.disabled ?? false}
+                      name={item.fieldName}
+                      variant="filled"
+                      type={item.type || 'text'}
+                    />
+                  )}
                 </Grid>
-
-                <Grid item xs={12} md={8} lg={9}>
-                  <FormikField
-                    disabled={item.disabled ?? false}
-                    fieldLabel={item.label}
-                    name={item.fieldName}
-                    variant="filled"
-                    type={item?.type || 'text'}
-                  />
-                </Grid>
-              </Grid>
-            ))}
-
-            <Grid container justifyContent="flex-end">
-              <Grid item xs={12} md={8} lg={9}>
-                <SubmitBtn btnSize="large" fullWidth />
-              </Grid>
+              ))}
             </Grid>
+
+            <Stack direction="row" spacing={1}>
+              <ResetBtn />
+
+              <SubmitBtn />
+            </Stack>
           </Form>
         )}
       </Formik>

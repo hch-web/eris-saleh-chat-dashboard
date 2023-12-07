@@ -13,9 +13,13 @@ function Sidebar() {
   return (
     <Box className={styles.sidebarContainer}>
       <List>
-        <SidebarItem icon={<Forum />} text="Chat Rooms" path="/" />
+        {isAdmin && (
+          <>
+            <SidebarItem icon={<Forum />} text="Chat Rooms" path="/" />
 
-        {isAdmin && <SidebarItem icon={<Diversity3 />} text="Users" path="/users" />}
+            <SidebarItem icon={<Diversity3 />} text="Users" path="/users" />
+          </>
+        )}
 
         <SidebarItem icon={<SupportAgent />} text="Human Agent" path="/human-agent" />
 

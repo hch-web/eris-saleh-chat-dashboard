@@ -24,11 +24,11 @@ export const ratingSelectOptions = [
 export const roleOptions = [
   {
     label: 'Admin',
-    value: 'true',
+    value: 'Admin',
   },
   {
-    label: 'User',
-    value: 'false',
+    label: 'Support',
+    value: 'Support',
   },
 ];
 

@@ -10,6 +10,7 @@ function UsersTableHead() {
         <TableCell className="noWrap">Last Name</TableCell>
         <TableCell>Username</TableCell>
         <TableCell>Email</TableCell>
+        <TableCell>Role</TableCell>
         <TableCell align="center">Actions</TableCell>
       </TableRow>
     </TableHead>

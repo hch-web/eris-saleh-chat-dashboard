@@ -23,7 +23,8 @@ function ChatBox() {
     <Paper sx={chatBoxPaperStyles}>
       <Box sx={chatMessageContainerStyles}>
         {chatMessages?.map(item => {
-          const isAdmin = item?.message_sender === 'Admin';
+          const isAdmin =
+            item?.message_sender === 'Admin' || item?.message_sender === 'Support';
           const isHuman = item?.message_sender === 'Human';
           const isAI = item?.message_sender === 'AI';
           const isDivider = item?.type === 'DIVIDER';

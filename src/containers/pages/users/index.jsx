@@ -75,6 +75,8 @@ function Users() {
 
                 <TableCell>{user?.email ?? 'NA'}</TableCell>
 
+                <TableCell>{user?.role ?? 'NA'}</TableCell>
+
                 <TableCell>
                   <Stack direction="row" justifyContent="center" spacing={1}>
                     <Link to={`/profile/${user?.id}/`}>

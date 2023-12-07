@@ -10,7 +10,7 @@ export const handleAddHumanAgentDivider = data => {
   if (sortedMessages?.length > 0 && humanAgentChatIdx > 1) {
     sortedMessages.splice(humanAgentChatIdx, 0, {
       type: 'DIVIDER',
-      message: 'Human Agent Connected',
+      message: 'Human Agent Chat',
     });
   }
 

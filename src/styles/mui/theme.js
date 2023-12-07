@@ -62,6 +62,10 @@ const theme = createTheme({
     whiteColor: {
       main: '#FFFFFF',
     },
+    mutedColor: {
+      main: '#e4e4e4',
+      contrastText: '#000',
+    },
   },
 });
 

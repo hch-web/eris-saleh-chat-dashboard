@@ -4,6 +4,7 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import GlobalLoader from 'containers/common/loaders/GlobalLoader';
 import PublicRoutes from './PublicRoutes';
 import PrivateRoutes from './PrivateRoutes';
+import AdminRoutes from './AdminRoutes';
 
 // PAGES
 const ChatRooms = lazy(() => import('containers/pages/chatRooms'));
@@ -25,15 +26,22 @@ function AppRoutes() {
             </Route>
 
             <Route path="/" element={<PrivateRoutes />}>
-              <Route index element={<ChatRooms />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/human-agent" element={<HumanAgent />} />
-              <Route path="/ticket-and-support" element={<Outlet />}>
-                <Route index element={<TicketAndSupport />} />
-                <Route path=":id" element={<TicketDetails />} />
+              <Route element={<AdminRoutes />}>
+                <Route index element={<ChatRooms />} />
+
+                <Route path="users" element={<Users />} />
+
+                <Route path="ticket-and-support" element={<Outlet />}>
+                  <Route index element={<TicketAndSupport />} />
+                  <Route path=":id" element={<TicketDetails />} />
+                </Route>
+
+                <Route path="user/add" element={<UserProfile />} />
               </Route>
-              <Route path="/profile/:id" element={<UserProfile />} />
-              <Route path="/user/add" element={<UserProfile />} />
+
+              <Route path="human-agent" element={<HumanAgent />} />
+
+              <Route path="profile/:id" element={<UserProfile />} />
             </Route>
           </Route>
         </Routes>
